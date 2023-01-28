@@ -23,6 +23,14 @@ public class TimeLogger {
         return decimalFormat.format(time);
     }
 
+    @Override
+    public String toString() {
+        return "TimeLogger{" +
+                "prefix='" + prefix + '\'' +
+                ", normalizer=" + normalizer +
+                '}';
+    }
+
     final static LazyLogger logger = new LazyLogger(TimeLogger.class);
 
     private static final Locale locale = new Locale("en", "US");
