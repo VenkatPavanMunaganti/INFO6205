@@ -1,12 +1,11 @@
 package edu.neu.coe.info6205.threesum;
 
-import edu.neu.coe.info6205.util.Benchmark_Timer;
+import edu.neu.coe.info6205.util.Stopwatch;
 import edu.neu.coe.info6205.util.TimeLogger;
 import edu.neu.coe.info6205.util.Utilities;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 public class ThreeSumBenchmark {
     public ThreeSumBenchmark(int runs, int n, int m) {
@@ -35,6 +34,18 @@ public class ThreeSumBenchmark {
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
         // FIXME
+        long time=0;
+        for(int i=0; i< this.runs; i++){
+            try (Stopwatch timer = new Stopwatch()) {
+                function.accept(this.supplier.get());
+                time += timer.lap();
+            }
+        }
+        double avgTime;
+        avgTime = (double)time/this.runs;
+        System.out.println(description);
+        timeLoggers[0].log(avgTime, n);
+        timeLoggers[1].log(avgTime, n);
         // END 
     }
 
@@ -42,10 +53,12 @@ public class ThreeSumBenchmark {
             new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
             new TimeLogger("Normalized time per run (n^3): ", (time, n) -> time / n / n / n * 1e6)
     };
+
     private final static TimeLogger[] timeLoggersQuadrithmic = {
             new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
             new TimeLogger("Normalized time per run (n^2 log n): ", (time, n) -> time / n / n / Utilities.lg(n) * 1e6)
     };
+
     private final static TimeLogger[] timeLoggersQuadratic = {
             new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
             new TimeLogger("Normalized time per run (n^2): ", (time, n) -> time / n / n * 1e6)

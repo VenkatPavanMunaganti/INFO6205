@@ -14,6 +14,9 @@ public class SourceTest {
         Source source = new Source(n, 10, 0L);
         Supplier<int[]> supplier = source.intsSupplier(10);
         int[] ints = supplier.get();
+        for(int i: ints){
+            System.out.println(i);
+        }
         assertEquals(n, ints.length);
     }
 }
