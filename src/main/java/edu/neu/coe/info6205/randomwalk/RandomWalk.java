@@ -4,6 +4,9 @@
 
 package edu.neu.coe.info6205.randomwalk;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class RandomWalk {
@@ -21,8 +24,9 @@ public class RandomWalk {
      */
     private void move(int dx, int dy) {
         // FIXME do move by replacing the following code
-         throw new RuntimeException("Not implemented");
-        // END 
+        x += dx;
+        y += dy;
+        // END
     }
 
     /**
@@ -32,7 +36,10 @@ public class RandomWalk {
      */
     private void randomWalk(int m) {
         // FIXME
-        // END 
+        for (int i = 0; i < m; i++) {
+            randomMove();
+        }
+        // END
     }
 
     /**
@@ -52,8 +59,8 @@ public class RandomWalk {
      */
     public double distance() {
         // FIXME by replacing the following code
-         return 0.0;
-        // END 
+        return Math.sqrt((x * x) + (y * y));
+        // END
     }
 
     /**
@@ -74,13 +81,17 @@ public class RandomWalk {
     }
 
     public static void main(String[] args) {
-        if (args.length == 0)
-            throw new RuntimeException("Syntax: RandomWalk steps [experiments]");
-        int m = Integer.parseInt(args[0]);
-        int n = 30;
-        if (args.length > 1) n = Integer.parseInt(args[1]);
-        double meanDistance = randomWalkMulti(m, n);
-        System.out.println(m + " steps: " + meanDistance + " over " + n + " experiments");
+        int n=100000;
+        int m=1500;
+        List<Integer> xCords= new ArrayList<>();
+        List<Double> yCords= new ArrayList<>();
+        for(int i=0;i<=m; i+=100){
+            double meanDistance = randomWalkMulti(i, n);
+            System.out.println(i + " steps: " + meanDistance + " over " + n + " experiments");
+            xCords.add(i);
+            yCords.add(meanDistance);
+        }
+        System.out.println(xCords);
+        System.out.println(yCords);
     }
-
 }
