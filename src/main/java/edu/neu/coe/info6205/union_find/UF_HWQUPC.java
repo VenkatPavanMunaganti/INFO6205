@@ -15,7 +15,6 @@ import java.util.Arrays;
 public class UF_HWQUPC implements UF {
     /**
      * Ensure that site p is connected to site q,
-     *
      * @param p the integer representing one site
      * @param q the integer representing the other site
      */
@@ -82,6 +81,13 @@ public class UF_HWQUPC implements UF {
         validate(p);
         int root = p;
         // FIXME
+        while(root != parent[root]){
+            root= parent[root];
+        }
+
+        if(this.pathCompression)
+            doPathCompression(p);
+
         // END 
         return root;
     }
@@ -162,7 +168,6 @@ public class UF_HWQUPC implements UF {
     private int getParent(int i) {
         return parent[i];
     }
-
     private final int[] parent;   // parent[i] = parent of i
     private final int[] height;   // height[i] = height of subtree rooted at i
     private int count;  // number of components
@@ -170,6 +175,13 @@ public class UF_HWQUPC implements UF {
 
     private void mergeComponents(int i, int j) {
         // FIXME make shorter root point to taller one
+        if( height[i] >= height[j] ){
+            updateParent(j, i);
+            updateHeight(i, j);
+        }else{
+            updateParent(i, j);
+            updateHeight(j, i);
+        }
         // END 
     }
 
@@ -178,6 +190,10 @@ public class UF_HWQUPC implements UF {
      */
     private void doPathCompression(int i) {
         // FIXME update parent to value of grandparent
+        while(i != parent[i]){
+            parent[i] = parent[parent[i]];
+            i= parent[i];
+        }
         // END 
     }
 }
