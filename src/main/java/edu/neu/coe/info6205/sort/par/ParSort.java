@@ -8,7 +8,6 @@ import java.util.concurrent.CompletableFuture;
  * CONSIDER tidy it up a bit.
  */
 class ParSort {
-
     public static int cutoff = 1000;
 
     public static void sort(int[] array, int from, int to) {
@@ -37,7 +36,7 @@ class ParSort {
             });
 
             parsort.whenComplete((result, throwable) -> System.arraycopy(result, 0, array, from, result.length));
-//            System.out.println("# threads: "+ ForkJoinPool.commonPool().getRunningThreadCount());
+//          System.out.println("# threads: "+ ForkJoinPool.commonPool().getRunningThreadCount());
             parsort.join();
         }
     }
